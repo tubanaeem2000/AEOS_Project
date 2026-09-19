@@ -1,0 +1,323 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+/* Enable class-based dark mode: toggling `.dark` on <html> switches theme */
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  /* Light mode -- same gradient family, tuned for a white canvas:
+     softer tints, no literal glow (glows read as dirty smudges on
+     white), gradients carry the identity instead. */
+  --bg: #ffffff;
+  --surface: #f8f9fd;
+  --surface-2: #f0f1fb;
+  --border: #e4e6f3;
+  --text-primary: #12132b;
+  --text-secondary: #5b5e7e;
+  --text-muted: #9a9dc0;
+
+  --primary: #6d4fff;
+  --primary-hover: #5b3ce6;
+  --primary-soft: #eeebff;
+
+  --neon-cyan: #0fb8c9;
+  --neon-violet: #6d4fff;
+  --neon-magenta: #d926a0;
+
+  --success: #0a9b6c;
+  --success-soft: #e6faf2;
+  --warning: #b9770e;
+  --warning-soft: #fff6e6;
+  --danger: #dc2650;
+  --danger-soft: #fdeaf0;
+
+  --gradient-brand: linear-gradient(135deg, var(--neon-cyan), var(--neon-violet), var(--neon-magenta));
+  --glow-primary: none;
+  --glow-strength: 0;
+
+  --shadow-sm: 0 1px 2px rgba(18, 19, 43, 0.05);
+  --shadow-md: 0 6px 20px rgba(18, 19, 43, 0.08);
+}
+
+.dark {
+  /* Dark mode -- this is the hero experience: near-black "deep space"
+     canvas so the neon gradient (cyan -> violet -> magenta) actually
+     reads as light/energy rather than as a smudge. */
+  --bg: #07080f;
+  --surface: #0e1020;
+  --surface-2: #12142a;
+  --border: #232647;
+  --text-primary: #eef0ff;
+  --text-secondary: #9ba0c9;
+  --text-muted: #656a95;
+
+  --primary: #8c6bff;
+  --primary-hover: #a486ff;
+  --primary-soft: rgba(140, 107, 255, 0.14);
+
+  --neon-cyan: #2bf1d6;
+  --neon-violet: #8c6bff;
+  --neon-magenta: #ff3fa6;
+
+  --success: #3cff9a;
+  --success-soft: rgba(60, 255, 154, 0.12);
+  --warning: #ffb627;
+  --warning-soft: rgba(255, 182, 39, 0.12);
+  --danger: #ff4d6d;
+  --danger-soft: rgba(255, 77, 109, 0.12);
+
+  --gradient-brand: linear-gradient(135deg, var(--neon-cyan), var(--neon-violet), var(--neon-magenta));
+  --glow-primary: 0 0 24px rgba(140, 107, 255, 0.35);
+  --glow-strength: 1;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 8px 28px rgba(0, 0, 0, 0.5);
+}
+
+@theme inline {
+  --color-background: var(--bg);
+  --color-foreground: var(--text-primary);
+  --font-sans: 'Inter', Arial, Helvetica, sans-serif;
+  --font-display: 'Space Grotesk', 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  color-scheme: light;
+}
+html.dark {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  position: relative;
+}
+
+/* Ambient aurora wash behind the whole app -- dark mode only, very low
+   opacity, slow drift. This is atmosphere, not a focal point. */
+.dark body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 900px 600px at 12% -10%, rgba(140, 107, 255, 0.16), transparent 60%),
+    radial-gradient(ellipse 800px 700px at 100% 10%, rgba(43, 241, 214, 0.10), transparent 55%),
+    radial-gradient(ellipse 700px 500px at 50% 110%, rgba(255, 63, 166, 0.08), transparent 55%);
+  animation: aurora-drift 22s ease-in-out infinite alternate;
+}
+
+@keyframes aurora-drift {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  100% { transform: translate3d(-1.5%, 1%, 0) scale(1.04); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* ---------------------------------------------------------------- */
+/* Signature motif: the "neural ring" -- an animated conic-gradient   */
+/* border. Used consistently on the logo mark, active nav item,       */
+/* primary buttons, cards on hover, and agent "thinking" states.      */
+/* This is the one throughline that ties the whole UI together.       */
+/* ---------------------------------------------------------------- */
+
+@keyframes neural-spin {
+  to { --angle: 360deg; }
+}
+
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.neural-ring {
+  position: relative;
+  isolation: isolate;
+}
+.neural-ring::before {
+  content: "";
+  position: absolute;
+  inset: -1.5px;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(from var(--angle), var(--neon-cyan), var(--neon-violet), var(--neon-magenta), var(--neon-cyan));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  animation: neural-spin 3.5s linear infinite;
+  z-index: -1;
+}
+.neural-ring:hover::before,
+.neural-ring[data-active="true"]::before,
+.neural-ring[data-glow="true"]::before {
+  opacity: 1;
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+.neural-glow-dot {
+  animation: glow-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up {
+  animation: fade-in-up 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes shimmer-sweep {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.gradient-text {
+  background: var(--gradient-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  background-size: 200% auto;
+}
+.dark .gradient-text {
+  animation: shimmer-sweep 6s linear infinite;
+}
+
+/* DAG / workflow visualization animations (unchanged from before --
+   still used by the Orchestrator page) */
+@keyframes dag-flow-dash {
+  to { stroke-dashoffset: -24; }
+}
+@keyframes dag-pulse-ring {
+  0% { box-shadow: 0 0 0 0 var(--pulse-color, rgba(140, 107, 255, 0.45)); }
+  70% { box-shadow: 0 0 0 10px rgba(140, 107, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(140, 107, 255, 0); }
+}
+@keyframes dag-fade-in-up {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes dag-flow-bg {
+  to { background-position: -24px 0; }
+}
+.dag-connector-flow {
+  background-image: repeating-linear-gradient(90deg, var(--primary) 0 6px, transparent 6px 12px);
+  animation: dag-flow-bg 0.7s linear infinite;
+}
+.dag-connector-active {
+  stroke-dasharray: 6 6;
+  animation: dag-flow-dash 0.8s linear infinite;
+}
+.dag-node-active {
+  animation: dag-pulse-ring 1.6s ease-out infinite;
+}
+.dag-step-enter {
+  animation: dag-fade-in-up 0.35s ease-out;
+}
+
+/* Reusable design-system primitives (token-based, theme-safe) */
+@layer components {
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: var(--shadow-sm);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  .dark .card:hover {
+    border-color: rgba(140, 107, 255, 0.35);
+    box-shadow: var(--shadow-sm), 0 0 0 1px rgba(140, 107, 255, 0.08), 0 0 32px -8px rgba(140, 107, 255, 0.25);
+  }
+
+  .surface-panel {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+  }
+
+  .text-heading {
+    color: var(--text-primary);
+  }
+
+  .text-body-secondary {
+    color: var(--text-secondary);
+  }
+
+  .text-caption {
+    color: var(--text-muted);
+  }
+
+  .btn-primary {
+    background: var(--gradient-brand);
+    background-size: 160% 160%;
+    color: #ffffff;
+    border-radius: 10px;
+    transition: background-position 0.35s ease, box-shadow 0.2s ease, transform 0.15s ease;
+    box-shadow: var(--glow-primary);
+  }
+  .btn-primary:hover {
+    background-position: 100% 50%;
+    transform: translateY(-1px);
+  }
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    border-radius: 10px;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+  }
+  .btn-secondary:hover {
+    background: var(--surface);
+    border-color: var(--primary);
+  }
+
+  .input-field {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    border-radius: 10px;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .input-field::placeholder {
+    color: var(--text-muted);
+  }
+  .input-field:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-soft);
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 500;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+  }
+}

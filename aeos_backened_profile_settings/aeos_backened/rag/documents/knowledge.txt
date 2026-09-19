@@ -1,0 +1,140 @@
+AEOS – AI-Powered Enterprise Operations System
+
+1. System Overview
+AEOS is an AI-powered enterprise operations platform designed to provide intelligent assistance through multiple specialized AI agents. The platform uses an agent-based architecture where user requests can be handled by specialized agents according to the type of task.
+
+2. Authentication
+AEOS provides user authentication using JWT-based access and refresh tokens. Users can log in to the platform and authenticated requests can be handled by the backend.
+
+3. AI Agents
+AEOS uses multiple specialized agents. Each agent is responsible for a particular type of task. An orchestrator can determine which specialized agent should handle a user's request.
+
+4. Orchestrator
+The orchestrator receives a user request and determines which specialized agent should process it. The purpose of orchestration is to dynamically delegate requests to the appropriate agent instead of sending every request to the same agent.
+
+5. Cloud Operations Agent
+The Cloud Operations Agent is responsible for cloud and infrastructure-related tasks. It can be designed to monitor infrastructure information and cloud cost metrics.
+
+6. RAG System
+The Retrieval-Augmented Generation system provides the AI agents with information from a project knowledge base. Documents are processed into smaller text chunks. The chunks are converted into vector embeddings and stored in a vector database. When a user asks a question, the system retrieves relevant information from the knowledge base and provides that information to the language model as context.
+
+7. RAG Pipeline
+The RAG pipeline consists of the following stages:
+Document Collection → Text Extraction → Text Chunking → Embedding Generation → Vector Storage → Similarity Search → Context Retrieval → AI Response Generation.
+
+8. Vector Search
+Vector search compares the embedding of a user's question with stored document embeddings. The most relevant chunks are retrieved and passed to the AI model.
+
+9. Purpose of RAG
+RAG helps the AI system answer questions using information from the provided knowledge base. It can reduce the need for the model to rely only on its general knowledge and can provide answers based on project-specific information.
+
+10. Frontend
+The AEOS frontend is developed using Next.js. The frontend provides the user interface through which users can interact with the platform and its AI functionality.
+
+11. Backend
+The AEOS backend is developed using FastAPI. The backend provides API routes, authentication functionality, database connectivity, and AI-related backend functionality.
+
+12. Database
+The backend uses SQLAlchemy for database interaction. The database connection is configured through the DATABASE_URL environment variable.
+
+13. Development Architecture
+The local development environment contains a Next.js frontend and a FastAPI backend. The frontend runs separately from the backend and communicates with backend API endpoints.
+
+14. Future Integration
+The RAG component will eventually be integrated with the AEOS agent system so that specialized agents can retrieve relevant information from the knowledge base when responding to user requestsents
+
+15. HR Policy - Annual Leave
+Our fictional company provides 24 annual paid leave days to every full-time employee. Leave days reset at the start of each calendar year and unused leave does not carry over to the next year. Employees must request leave through their manager at least 3 working days in advance for planned leave.
+
+16. HR Policy - Onboarding
+New employees complete a 5-day onboarding program covering company policies, tools setup, and an introduction to their department. HR issues a company laptop and email account on the employee's first day.
+
+17. HR Policy - Sick Leave
+Employees are entitled to 10 paid sick leave days per year, separate from the 24 annual paid leave days. A doctor's note is required for sick leave lasting more than 2 consecutive days.
+
+18. Finance Policy - Expense Reimbursement
+Employees can submit expense reimbursement requests for business-related purchases up to $500 without prior manager approval. Any expense above $500 requires written manager approval before the purchase is made. Reimbursement requests must include a valid receipt and are processed within 10 business days.
+
+19. Finance Policy - Invoice Approval
+Vendor invoices under $10,000 can be approved directly by the Finance Agent. Invoices between $10,000 and $50,000 require Finance Manager approval. Invoices above $50,000 are automatically flagged as high-risk and require admin approval through the Orchestrator before payment is processed.
+
+20. Finance Policy - Payment Terms
+The standard payment term for approved vendor invoices is Net 30, meaning payment is due within 30 days of the invoice date. Early payment discounts of 2% are available for invoices paid within 10 days.
+
+21. Customer Support - Refund Policy
+Customers can request a full refund within 30 days of purchase if the product is unused and in its original condition. Refunds are processed back to the original payment method within 5-7 business days after approval.
+
+22. Customer Support - Response Time
+The Customer Support Agent aims to provide an initial response to customer tickets within 4 business hours. Tickets marked as urgent are prioritized and receive an initial response within 1 business hour.
+
+23. Customer Support - Escalation
+Support tickets that are not resolved within 48 hours are automatically escalated to a senior support agent. Customers can also request escalation directly by replying "escalate" to any support ticket.
+
+24. Sales Policy - Discount Approval
+Sales representatives can offer discounts of up to 10% on standard pricing without manager approval. Discounts between 10% and 25% require Sales Manager approval. Any discount above 25% must be escalated to the Sales Director and requires written justification.
+
+25. Sales Policy - Lead Qualification
+A lead is considered "qualified" when it has a confirmed budget, a named decision-maker, a clear business need, and a target timeline within the next two quarters. Unqualified leads are routed to the nurture campaign instead of direct sales outreach.
+
+26. Sales Policy - Contract Renewal
+Customer contracts are eligible for renewal outreach 90 days before expiration. Sales reps must log a renewal conversation in the CRM at least 60 days before the contract end date to avoid automatic churn-risk flagging.
+
+27. Legal Policy - Contract Review Turnaround
+Standard vendor contracts are reviewed by the Legal Agent within 3 business days. Contracts involving new vendors, non-standard terms, or liability caps above $100,000 require a 5-7 business day review and human legal counsel sign-off.
+
+28. Legal Policy - NDA Requirements
+All external parties receiving confidential company information must sign a Non-Disclosure Agreement (NDA) before any information is shared. Standard NDAs are valid for 2 years from the signing date and auto-expire unless renewed.
+
+29. Legal Policy - Contract Termination
+Vendor contracts may be terminated with 30 days written notice unless a different termination clause is explicitly stated in the signed agreement. Early termination fees, if applicable, are outlined in the original contract's termination section.
+
+30. Procurement Policy - Vendor Selection
+New vendors must go through a 3-bid comparison process for purchases above $5,000. Purchases below $5,000 can be made from an approved vendor list without a competitive bidding process. All new vendors must pass a basic compliance and financial-stability check before onboarding.
+
+31. Procurement Policy - Purchase Order Approval
+Purchase orders under $10,000 can be approved directly by the Procurement Agent. Purchase orders between $10,000 and $50,000 require Procurement Manager approval. Purchase orders above $50,000 are flagged as high-risk and require admin approval through the Orchestrator.
+
+32. Procurement Policy - Inventory Reorder
+Standard office and operational supplies are automatically flagged for reorder when stock falls below a 2-week supply threshold. Critical equipment and hardware follow a manual reorder process requiring department head sign-off.
+
+33. Cyber Security Policy - Incident Response
+Any suspected security incident must be reported to the Cyber Security Agent within 1 hour of discovery. Critical incidents (active breach, ransomware, data exfiltration) trigger an immediate escalation to the security team and require executive notification within 4 hours.
+
+34. Cyber Security Policy - Password Requirements
+All employee accounts require passwords with a minimum of 12 characters, including uppercase, lowercase, numbers, and symbols. Passwords must be rotated every 90 days, and multi-factor authentication (MFA) is mandatory for all accounts with access to financial or customer data systems.
+
+35. Cyber Security Policy - Vulnerability Patching
+Critical security vulnerabilities (CVSS score 9.0 or above) must be patched within 48 hours of disclosure. High-severity vulnerabilities (CVSS 7.0-8.9) must be patched within 7 days. Medium and low-severity vulnerabilities follow the standard monthly patching cycle.
+
+36. Marketing Policy - Campaign Approval
+Marketing campaigns with a budget under $5,000 can be launched directly by the Marketing Agent. Campaigns between $5,000 and $25,000 require Marketing Manager approval. Campaigns above $25,000, or any campaign involving paid media in a new market, require Marketing Director sign-off.
+
+37. Marketing Policy - Brand Guidelines
+All external-facing content must use the approved company logo, color palette, and typography as defined in the brand style guide. Any campaign copy mentioning competitors by name must be reviewed by Legal before publication.
+
+38. Marketing Policy - Social Media Response Time
+The Marketing Agent aims to respond to public social media mentions and comments within 2 business hours during business hours. Negative or escalated customer complaints on social media are routed to Customer Support within 30 minutes.
+
+39. Data Analytics Policy - Data Access
+Access to raw customer data for analytics purposes requires manager approval and is limited to anonymized or aggregated datasets wherever possible. Any analytics report intended for external sharing must be reviewed by Compliance before distribution.
+
+40. Data Analytics Policy - Reporting Cadence
+Standard KPI dashboards are refreshed daily at 6 AM. Executive summary reports are generated weekly every Monday, and full quarterly business reviews are compiled within 5 business days of quarter-end.
+
+41. Compliance Policy - Regulatory Audits
+Internal compliance audits are conducted quarterly across all departments. External regulatory audits (ISO, GDPR, HIPAA where applicable) are scheduled annually, with a 30-day internal readiness review beforehand. Any compliance violation found during an audit must be remediated within 15 business days.
+
+42. Compliance Policy - Data Privacy (GDPR)
+Personal data of EU customers or employees must be processed only for the specific purpose it was collected for, and retained no longer than necessary. Data subject access requests (DSARs) must be fulfilled within 30 days of the request being received.
+
+43. Compliance Policy - Policy Violation Reporting
+Employees who observe a potential compliance violation can report it confidentially through the whistleblower channel. All reports are reviewed by the Compliance Agent within 5 business days, and retaliation against a good-faith reporter is strictly prohibited.
+
+44. Cloud Operations Policy - Uptime and SLA
+Production systems maintain a target uptime SLA of 99.9% per month. Any unplanned downtime exceeding 15 minutes triggers an automatic incident report and root-cause analysis within 24 hours of resolution.
+
+45. Cloud Operations Policy - Backup and Disaster Recovery
+Production databases are backed up automatically every 6 hours, with backups retained for 30 days. Disaster recovery drills are conducted twice per year, with a target Recovery Time Objective (RTO) of 4 hours and a Recovery Point Objective (RPO) of 1 hour.
+
+46. Cloud Operations Policy - Cost Optimization
+Cloud infrastructure spend is reviewed monthly by the Cloud Operations Agent. Any single resource with month-over-month cost growth above 20% is automatically flagged for review. Unused or idle resources (less than 5% utilization over 14 days) are flagged for decommissioning.
